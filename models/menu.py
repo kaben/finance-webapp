@@ -5,15 +5,14 @@
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = A(B('web',SPAN(2),'py'),XML('&trade;&nbsp;'),
-                  _class="brand",_href="http://www.web2py.com/")
-response.title = request.application.replace('_',' ').title()
-response.subtitle = ''
+response.logo = A(B('kaben.nanlohy'), _class="brand",_href="mailto:kaben.nanlohy@gmail.com")
+response.title = "Foolish Investing"
+response.subtitle = P("based on ", A("The Motley Fool's Rule Maker Ranker", _href="http://www.fool.com/portfolios/RuleMaker/rulemakerspreadsheetinfo.htm"))
 
 ## read more at http://dev.w3.org/html5/markup/meta.name.html
-response.meta.author = 'Your Name <you@example.com>'
-response.meta.description = 'a cool new app'
-response.meta.keywords = 'web2py, python, framework'
+response.meta.author = 'Kaben Nanlohy <kaben.nanlohy@gmail.com>'
+response.meta.description = "Investing decisions based on The Motley Fool's Rule Maker Ranker"
+response.meta.keywords = 'motley fool, rule maker ranking, investing'
 response.meta.generator = 'Web2py Web Framework'
 
 ## your http://google.com/analytics id
@@ -23,9 +22,7 @@ response.google_analytics_id = None
 ## this is the main application menu add/remove items as required
 #########################################################################
 
-response.menu = [
-    (T('Home'), False, URL('default', 'index'), [])
-]
+response.menu = []
 
 DEVELOPMENT_MENU = True
 
