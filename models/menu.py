@@ -7,7 +7,12 @@
 
 response.logo = A(B('kaben.nanlohy'), _class="brand",_href="mailto:kaben.nanlohy@gmail.com")
 response.title = "Foolish Investing"
-response.subtitle = P("based on ", A("The Motley Fool's Rule Maker Ranker", _href="http://www.fool.com/portfolios/RuleMaker/rulemakerspreadsheetinfo.htm"))
+response.subtitle = P(
+  "based on ",
+  A("The Motley Fool's", _href="http://www.fool.com/"),
+  " ",
+  A("Rule Maker Ranker", _href="http://www.fool.com/portfolios/RuleMaker/rulemakerspreadsheetinfo.htm"),
+)
 
 ## read more at http://dev.w3.org/html5/markup/meta.name.html
 response.meta.author = 'Kaben Nanlohy <kaben.nanlohy@gmail.com>'
@@ -36,7 +41,7 @@ def _():
     ctr = request.controller
     # useful links to internal and external resources
     response.menu += [
-        (SPAN('web2py', _class='highlighted'), False, 'http://web2py.com', [
+        (SPAN('web2py'), False, 'http://web2py.com', [
         (T('My Sites'), False, URL('admin', 'default', 'site')),
         (T('This App'), False, URL('admin', 'default', 'design/%s' % app), [
         (T('Controller'), False,
