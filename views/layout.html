@@ -53,7 +53,7 @@
   # using sidebars need to know what sidebar you want to use
   left_sidebar_enabled = globals().get('left_sidebar_enabled',False)
   right_sidebar_enabled = globals().get('right_sidebar_enabled',False)
-  middle_columns = {0:'span12',1:'span9',2:'span6'}[
+  middle_columns = {0:'span12',1:'span10',2:'span8'}[
     (left_sidebar_enabled and 1 or 0)+(right_sidebar_enabled and 1 or 0)]
   }}
 
@@ -67,7 +67,7 @@
 
 <body>
   <!-- Navbar ================================================== -->
-  <div class="navbar navbar-inverse">
+  <div class="navbar">
     <div class="flash">{{=response.flash or ''}}</div>
     <div class="navbar-inner">
       <div class="container">
@@ -92,21 +92,22 @@
   <div class="container">
     <!-- Masthead ================================================== -->
     <header class="mastheader row" id="header">
-      {{if response.title:}}
-        <div class="span12">
-            <div class="page-header">
-                <h1>
-                    {{=response.title}}
-                    <small>{{=response.subtitle or ''}}</small>
-                </h1>
-            </div>
+      <div class="span12">
+        <div class="page-header">
+          <h1>
+            {{=response.title}}
+            <small>{{=response.subtitle or ''}}</small>
+          </h1>
+          <form class="form-search">
+            <input type="text" class="search-query" placeholder="Search companies">
+          </form>
         </div>
-	{{pass}}
+      </div>
     </header>
 
     <section id="main" class="main row">
         {{if left_sidebar_enabled:}}
-        <div class="span3 left-sidebar">
+        <div class="span2 left-sidebar">
             {{block left_sidebar}}
             <h3>Left Sidebar</h3>
             <p></p>
@@ -121,7 +122,7 @@
         </div>
 
         {{if right_sidebar_enabled:}}
-        <div class="span3">
+        <div class="span2">
             {{block right_sidebar}}
             <h3>Right Sidebar</h3>
             <p></p>
@@ -132,17 +133,21 @@
 
     <!-- Footer ================================================== -->
     <div class="row">
-        <footer class="footer span12" id="footer">
-            <div class="footer-content">
-                {{block footer}} <!-- this is default footer -->
-                <div class="copyright pull-left">{{=T('Copyright')}} &#169; {{=request.now.year}}</div>
-                <div id="poweredBy" class="pull-right">
-                    {{=T('Powered by')}}
-                    <a href="http://www.web2py.com/">web2py</a>
-                </div>
-                {{end}}
-            </div>
-        </footer>
+      <footer class="footer span12" id="footer">
+        <div class="footer-content">
+          {{block footer}} <!-- this is default footer -->
+          <div class="copyright pull-left">
+            {{=T('Copyright')}} &#169; {{=request.now.year}} Kaben Nanlohy
+            <br/>
+            <span class="muted">Not affiliated with The Motley Fool</span>
+          </div>
+          <div id="poweredBy" class="pull-right">
+            {{=T('Powered by')}}
+            <a href="http://www.web2py.com/">web2py</a>
+          </div>
+          {{end}}
+        </div>
+      </footer>
     </div>
 
   </div> <!-- /container -->
