@@ -2,7 +2,10 @@
                        CUSTOM RULES
 ==============================================================*/
 
-body{height:auto;} /* to avoid vertical scroll bar */
+body{
+  font-family: "Linden Hill", serif;
+  height:auto; /* to avoid vertical scroll bar */
+}
 
 a{}
 a:visited{}
@@ -16,6 +19,9 @@ h3{}
 h4{}
 h5{}
 h6{}
+h1, h2, h3, h4, h5, h6 {
+  font-weight:normal;
+}
 
 div.flash.flash-center{left:25%;right:25%;}
 div.flash.flash-top,div.flash.flash-top:hover{
@@ -41,7 +47,7 @@ div.flash.flash-top,div.flash.flash-top:hover{
 .mastheader h1 {
   margin-bottom:9px;
   font-size:81px;
-  font-weight:bold;
+  font-weight:normal;
   letter-spacing:-1px;
   line-height:1;
   font-size:54px;
