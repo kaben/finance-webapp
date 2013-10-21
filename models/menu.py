@@ -5,14 +5,9 @@
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = A(B('kaben.nanlohy'), _class="brand",_href="mailto:kaben.nanlohy@gmail.com")
-response.title = "Foolish Investing"
-response.subtitle = P(
-  "based on ",
-  A("The Motley Fool's", _href="http://www.fool.com/"),
-  " ",
-  A("Rule Maker Ranker", _href="http://www.fool.com/portfolios/RuleMaker/rulemakerspreadsheetinfo.htm"),
-)
+response.logo = A(EM("irrealis"), "CHOMP", _class="brand",_href="mailto:kaben.nanlohy@gmail.com")
+response.title = P(EM("irrealis"), "FINANCE")
+response.subtitle = P("simple algorithmic investing")
 
 ## read more at http://dev.w3.org/html5/markup/meta.name.html
 response.meta.author = 'Kaben Nanlohy <kaben.nanlohy@gmail.com>'
