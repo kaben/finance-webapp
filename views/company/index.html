@@ -2,11 +2,9 @@
 {{right_sidebar_enabled=True}}
 {{extend 'layout.html'}}
 
-<h1>This is the company/index.html template</h1>
-{{=BEAUTIFY(response._vars)}}
+<h1>This is a company summary placeholder.</h1>
 
-<p><a href="#">This</a> is what a link looks like.</p>
-{{=response.toolbar()}}
+<embed src="plot.svg" type="image/svg+xml" id="main-chart"/>
 
 {{block left_sidebar}}
 {{ =sidebar_menu }}
