@@ -11,8 +11,8 @@ response.subtitle = P("simple algorithmic investing")
 
 ## read more at http://dev.w3.org/html5/markup/meta.name.html
 response.meta.author = 'Kaben Nanlohy <kaben.nanlohy@gmail.com>'
-response.meta.description = "Investing decisions based on The Motley Fool's Rule Maker Ranker"
-response.meta.keywords = 'motley fool, rule maker ranking, investing'
+response.meta.description = "Simple algorithmic investing"
+response.meta.keywords = 'investing'
 response.meta.generator = 'Web2py Web Framework'
 
 ## your http://google.com/analytics id

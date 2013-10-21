@@ -1,4 +1,4 @@
-foolish-investing-webapp
+finance-webapp
 ========================
 
-Demo web front end for investing decisions based on The Motley Fool's Rule Maker Ranker.
+Demo web front end for simple algorithmic investing. Developed with web2py.
