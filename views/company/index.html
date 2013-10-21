@@ -5,8 +5,11 @@
 <h1>This is the company/index.html template</h1>
 {{=BEAUTIFY(response._vars)}}
 
+<p><a href="#">This</a> is what a link looks like.</p>
+{{=response.toolbar()}}
+
 {{block left_sidebar}}
-This is the left sidebar.
+{{ =sidebar_menu }}
 {{end}}
 
 {{block right_sidebar}}

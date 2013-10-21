@@ -7,11 +7,26 @@ body{
   height:auto; /* to avoid vertical scroll bar */
 }
 
-a{}
+a{
+  color:#8f023a;
+}
 a:visited{}
 a:hover{}
 a:focus{}
 a:active{}
+.nav-list > .active > a,
+.nav-list > .active > a:hover,
+.nav-list > .web2py-menu-active > a,
+.nav-list > .web2py-menu-active > a:hover
+{
+  color:#8f023a;
+  background-color:#e2d4d9;
+}
+
+div.nav-menu > ul.nav-list {
+  margin-left: 0;
+  padding-left: 0;
+}
 
 h1{}
 h2{}

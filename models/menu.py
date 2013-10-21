@@ -25,7 +25,48 @@ response.google_analytics_id = None
 
 response.menu = []
 
+# Example use of response.sidebar_navitems:
+# def index():
+#   navitems = response.sidebar_navitems.copy()
+#   navitems["enabled_items"].insert(0, "company")
+#   navitems["company"]["subitems"]["expand"] = True
+#   sidebar_menu = DIV(NAV_LIST(get_menuitems(navitems)), _class="nav-menu")
+#   return dict(message="hello from company.py", sidebar_menu=sidebar_menu)
+
+response.sidebar_navitems = dict(
+  enabled_items = ["future1", "future2"],
+  company = dict(
+    text = T("COMPANY"),
+    expand = False,
+    enabled_items = ["summary", "summary_future_1"],
+    summary = dict(text=T("Summary")),
+    summary_future_1 = dict(text=T("Future submenu of summary")),
+  ),
+  future1 = dict(
+    text = T("FUTURE MENU 1"),
+    expand = False,
+    enabled_items = ["future1_1"],
+    future1_1 = dict(text=T("Future submenu 1.1")),
+  ),
+  future2 = dict(text=T("FUTURE MENU 2")),
+)
+
+def get_menuitems(navitems):
+  menuitems = list()
+  for enabled_item in navitems["enabled_items"]:
+    navitem = navitems[enabled_item]
+    text = navitem["text"]
+    active = navitem.get("active", False)
+    helper = navitem.get("helper", "")
+    subitems = get_menuitems(navitem) if navitem.get("expand") else []
+    menuitems.append([text, active, helper, subitems])
+  return menuitems
+
 DEVELOPMENT_MENU = True
+
+def NAV_LIST(*args, **kw):
+  kw["_class"] = kw["ul_class"] = "nav nav-list"
+  return MENU(*args, **kw)
 
 #########################################################################
 ## provide shortcuts for development. remove in production
