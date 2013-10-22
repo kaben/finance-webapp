@@ -22,7 +22,8 @@ def index():
   navitems = response.sidebar_navitems.copy()
   navitems["future1"]["active"] = True
   sidebar_menu = DIV(NAV_LIST(get_menuitems(navitems)), _class="nav-menu")
-  return dict(message=T('Hello World'), sidebar_menu=sidebar_menu)
+  message = P("Hello, world! ", A("Click here", _href=URL("finance", "company", "index")), " to see a demo company-summary page.")
+  return dict(message=message, sidebar_menu=sidebar_menu)
 
 
 def user():
