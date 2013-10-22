@@ -7,13 +7,18 @@ body{
   height:auto; /* to avoid vertical scroll bar */
 }
 
-a{
-  color:#8f023a;
-}
+a{ color:#8f023a; }
 a:visited{}
 a:hover{}
 a:focus{}
 a:active{}
+a#webtitle{
+  color:inherit;
+}
+a#webtitle:hover{
+  color:inherit;
+  text-decoration:none;
+}
 .nav-list > .active > a,
 .nav-list > .active > a:hover,
 .nav-list > .web2py-menu-active > a,
@@ -38,6 +43,17 @@ h1, h2, h3, h4, h5, h6 {
   font-weight:normal;
 }
 
+div.flash {
+  right:0px;
+  font-family: inherit;
+  font-weight:normal;
+  color:#8f023a;
+  background-color:#e2d4d9;
+  background-image: -webkit-linear-gradient(top,#eee,#e2d4d9);
+  background-image: -o-linear-gradient(top,#eee,#e2d4d9);
+  background-image: -moz-linear-gradient(90deg, #eee, #e2d4d9);
+  background-image: linear-gradient(top,#eee,#e2d4d9);
+}
 div.flash.flash-center{left:25%;right:25%;}
 div.flash.flash-top,div.flash.flash-top:hover{
   position:relative;

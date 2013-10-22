@@ -1,4 +1,5 @@
-{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+{{left_sidebar_enabled=True}}
+{{right_sidebar_enabled=True}}
 {{extend 'layout.html'}}
 
 {{if 'message' in globals():}}
@@ -22,6 +23,10 @@
 {{else:}}
 {{=BEAUTIFY(response._vars)}}
 {{pass}}
+
+{{block left_sidebar}}
+{{ =sidebar_menu }}
+{{end}}
 
 {{block right_sidebar}}
 {{=A(T("Administrative Interface"), _href=URL('admin','default','index'), _class='btn',

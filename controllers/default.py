@@ -11,15 +11,18 @@
 
 
 def index():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
+  """
+  example action using the internationalization operator T and flash
+  rendered by views/default/index.html or views/generic.html
 
-    if you need a simple wiki simple replace the two lines below with:
-    return auth.wiki()
-    """
-    response.flash = T("Welcome to web2py!")
-    return dict(message=T('Hello World'))
+  if you need a simple wiki simple replace the two lines below with:
+  return auth.wiki()
+  """
+  response.flash = DIV(T("Welcome to"), " ", EM("irrealis"), "FINANCE!")
+  navitems = response.sidebar_navitems.copy()
+  navitems["future1"]["active"] = True
+  sidebar_menu = DIV(NAV_LIST(get_menuitems(navitems)), _class="nav-menu")
+  return dict(message=T('Hello World'), sidebar_menu=sidebar_menu)
 
 
 def user():
