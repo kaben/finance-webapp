@@ -12,6 +12,9 @@
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
     db = DAL('sqlite://storage.sqlite',pool_size=1,check_reserved=['all'])
+    import applications.finance.modules
+    sa_url = "sqlite:///applications/{}/databases/storage.sqlite".format(request.application)
+    orm = applications.finance.modules.get_sqlalchemy_orm(sa_url)
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
     db = DAL('google:datastore')
@@ -79,5 +82,11 @@ use_janrain(auth, filename='private/janrain.key')
 ## >>> for row in rows: print row.id, row.myfield
 #########################################################################
 
+applications.finance.modules.setup_tables(db)
+sector_parents_children = db(
+  (db.google_sectors.id==db.google_sectors_assoc.parent_id)
+  &
+  (db.google_sectors.id==db.google_sectors_assoc.child_id)
+)
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)

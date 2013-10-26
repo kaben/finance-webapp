@@ -22,8 +22,18 @@ def index():
   navitems = response.sidebar_navitems.copy()
   navitems["future1"]["active"] = True
   sidebar_menu = DIV(NAV_LIST(get_menuitems(navitems)), _class="nav-menu")
+
   message = P("Hello, world! ", A("Click here", _href=URL("finance", "company", "index")), " to see a demo company-summary page.")
-  return dict(message=message, sidebar_menu=sidebar_menu)
+  root_rows = db(
+    (db.google_sectors_assoc.parent_id==1)
+    &
+    (db.google_sectors_assoc.child_id==db.google_sectors.id)
+  ).select(db.google_sectors.name)
+  return dict(
+    message=message,
+    sidebar_menu=sidebar_menu,
+    content=root_rows,
+  )
 
 
 def user():
