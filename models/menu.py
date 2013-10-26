@@ -42,6 +42,13 @@ response.sidebar_navitems = dict(
     summary = dict(text=T("Summary")),
     summary_future_1 = dict(text=T("Future submenu of summary")),
   ),
+  sector = dict(
+    text = T("SECTOR"),
+    expand = False,
+    enabled_items = ["summary", "summary_future_1"],
+    summary = dict(text=T("Summary")),
+    summary_future_1 = dict(text=T("Future submenu of summary")),
+  ),
   future1 = dict(
     text = T("FUTURE MENU 1"),
     expand = False,

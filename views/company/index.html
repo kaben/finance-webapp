@@ -2,9 +2,17 @@
 {{right_sidebar_enabled=True}}
 {{extend 'layout.html'}}
 
-<h1>This is a company summary placeholder.</h1>
+{{if company:}}
+<h3>{{=company.name}}</h3>
+{{else:}}
+<h3>This is the company/index.html template</h3>
+{{pass}}
 
-<embed src="plot.svg" type="image/svg+xml" id="main-chart"/>
+<embed src="{{=URL('plot.svg')}}" type="image/svg+xml" id="main-chart"/>
+
+{{if company:}}
+<p>Sector: {{=A(company.sector.name, _href=URL(c="sector", vars=dict(catid=company.sector.catid)))}}</p>
+{{pass}}
 
 {{block left_sidebar}}
 {{ =sidebar_menu }}

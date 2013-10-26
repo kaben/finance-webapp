@@ -1,12 +1,20 @@
 # coding: utf8
 # try something like
 def index():
+  stock_symbol = request.vars.get("stock_symbol")
+  company = orm.session.query(orm.GoogleCompany).filter(orm.GoogleCompany.stock_symbol==stock_symbol).first()
+
   navitems = response.sidebar_navitems.copy()
   navitems["enabled_items"].insert(0, "company")
   navitems["company"]["expand"] = True
   navitems["company"]["summary"]["active"] = True
   sidebar_menu = DIV(NAV_LIST(get_menuitems(navitems)), _class="nav-menu")
-  return dict(message="hello from company.py", sidebar_menu=sidebar_menu)
+
+  return dict(
+    message="hello from company.py",
+    sidebar_menu=sidebar_menu,
+    company=company,
+  )
 
 def plot():
   import pygal

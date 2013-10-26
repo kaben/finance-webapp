@@ -2,14 +2,32 @@
   {{right_sidebar_enabled=True}}
 {{extend 'layout.html'}}
 
-{{if sector.name == "root":}}
-<h3>This is the sector/index.html template</h3>
+{{if is_root:}}
+  <h3>This is the sector/index.html template</h3>
 {{else:}}
-<h3>{{=sector.name}}</h3>
+  <h3>{{=sector.name}}</h3>
 {{pass}}
 
-{{=BEAUTIFY(response._vars)}}
+{{if companies:}}
+  <h4>Companies</h4>
+  <table>
+    <tbody>
+    {{for n, company in enumerate(companies):}}
+      {{if n%1:}}
+        <tr class="odd">
+      {{else:}}
+        <tr class="even">
+      {{pass}}
+          <td>
+            {{=A(company.name, _href=URL(c="company", vars=dict(stock_symbol=company.stock_symbol)))}}
+          </td>
+        </tr>
+    {{pass}}
+    </tbody>
+  </table>
+{{pass}}
 {{=response.toolbar()}}
+
 
 {{block left_sidebar}}
   {{ =sidebar_menu }}
@@ -26,7 +44,9 @@
         {{else:}}
           <tr class="even">
         {{pass}}
-            <td><a href="?catid={{=subsector.catid}}">{{=subsector.name}}</a></td>
+            <td>
+              <a href="?catid={{=subsector.catid}}">{{=subsector.name}}</a>
+            </td>
           </tr>
       {{pass}}
       </tbody>
