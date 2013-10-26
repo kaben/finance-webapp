@@ -8,7 +8,7 @@
   <h3>{{=sector.name}}</h3>
 {{pass}}
 
-{{if companies:}}
+{{if companies.count():}}
   <h4>Companies</h4>
   <table>
     <tbody>
@@ -25,6 +25,13 @@
     {{pass}}
     </tbody>
   </table>
+  <div class="pagination">
+    <ul>
+      {{for link in pagination:}}
+      <li>{{=link}}</li>
+      {{pass}}
+    </ul>
+  </div>
 {{pass}}
 {{=response.toolbar()}}
 
