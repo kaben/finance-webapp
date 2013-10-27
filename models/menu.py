@@ -10,7 +10,7 @@ from applications.finance.modules import dotdict
 response.logo = A(EM("irrealis"), "CHOMP", _class="brand", _href="mailto:kaben.nanlohy@gmail.com")
 response.title = "irrealisFINANCE"
 response.webtitle = A(EM("irrealis"), "FINANCE", _id="webtitle", _href=URL("../.."))
-response.subtitle = P("simple algorithmic investing")
+#response.subtitle = P("simple algorithmic investing")
 
 ## read more at http://dev.w3.org/html5/markup/meta.name.html
 response.meta.author = 'Kaben Nanlohy <kaben.nanlohy@gmail.com>'
