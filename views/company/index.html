@@ -3,7 +3,7 @@
 {{extend 'layout.html'}}
 
 {{if company:}}
-<h3>{{=company.name}}</h3>
+<h3>{{=company.name}} ({{=company.stock_symbol}})</h3>
 {{else:}}
 <h3>This is the company/index.html template</h3>
 {{pass}}

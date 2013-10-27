@@ -19,7 +19,7 @@
         <tr class="even">
       {{pass}}
           <td>
-            {{=A(company.name, _href=URL(c="company", vars=dict(stock_symbol=company.stock_symbol)))}}
+            {{=A("{} ({})".format(company.name, company.stock_symbol), _href=URL(c="company", vars=dict(stock_symbol=company.stock_symbol)))}}
           </td>
         </tr>
     {{pass}}
