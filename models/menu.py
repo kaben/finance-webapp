@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # this file is released under public domain and you can use without limitations
 
+from applications.finance.modules import dotdict
+
 #########################################################################
 ## Customize your APP title, subtitle and menus here
 #########################################################################
@@ -28,34 +30,34 @@ response.menu = []
 # Example use of response.sidebar_navitems:
 # def index():
 #   navitems = response.sidebar_navitems.copy()
-#   navitems["enabled_items"].insert(0, "company")
-#   navitems["company"]["subitems"]["expand"] = True
+#   navitems.enabled_items.insert(0, "company")
+#   navitems.company.subitems.expand = True
 #   sidebar_menu = DIV(NAV_LIST(get_menuitems(navitems)), _class="nav-menu")
-#   return dict(message="hello from company.py", sidebar_menu=sidebar_menu)
+#   return dotdict(message="hello from company.py", sidebar_menu=sidebar_menu)
 
-response.sidebar_navitems = dict(
+response.sidebar_navitems = dotdict(
   enabled_items = ["future1", "future2"],
-  company = dict(
+  company = dotdict(
     text = T("COMPANY"),
     expand = False,
     enabled_items = ["summary", "summary_future_1"],
-    summary = dict(text=T("Summary")),
-    summary_future_1 = dict(text=T("Future submenu of summary")),
+    summary = dotdict(text=T("Summary")),
+    summary_future_1 = dotdict(text=T("Future submenu of summary")),
   ),
-  sector = dict(
+  sector = dotdict(
     text = T("SECTOR"),
     expand = False,
     enabled_items = ["summary", "summary_future_1"],
-    summary = dict(text=T("Summary")),
-    summary_future_1 = dict(text=T("Future submenu of summary")),
+    summary = dotdict(text=T("Summary")),
+    summary_future_1 = dotdict(text=T("Future submenu of summary")),
   ),
-  future1 = dict(
+  future1 = dotdict(
     text = T("FUTURE MENU 1"),
     expand = False,
     enabled_items = ["future1_1"],
-    future1_1 = dict(text=T("Future submenu 1.1")),
+    future1_1 = dotdict(text=T("Future submenu 1.1")),
   ),
-  future2 = dict(text=T("FUTURE MENU 2")),
+  future2 = dotdict(text=T("FUTURE MENU 2")),
 )
 
 def get_menuitems(navitems):

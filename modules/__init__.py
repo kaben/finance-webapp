@@ -47,3 +47,29 @@ def get_sqlalchemy_orm(url):
   )
   orm = ORM(orm_defs, url)
   return orm
+
+
+def get_pages(
+  current_record_number,
+  record_count,
+  records_per_page,
+  previous_pages = 10,
+  next_pages = 10,
+):
+  current_page = current_record_number/records_per_page
+  page_count = record_count/records_per_page
+  page_min = max(0, current_page - previous_pages )
+  page_max = min(current_page + next_pages, page_count)
+  pages = range(page_min, page_max)
+  return current_page, pages
+
+
+class dotdict(dict):
+  def __init__(self, *l, **d):
+    super(dotdict, self).__init__(*l, **d)
+    self.__dict__ = self
+  def copy(self):
+    return dotdict(self)
+  @staticmethod
+  def fromkeys(*l, **d):
+    return dotdict(dict.fromkeys(*l, **d))
