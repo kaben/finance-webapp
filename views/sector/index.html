@@ -25,10 +25,10 @@
     {{pass}}
     </tbody>
   </table>
-  <div class="pagination">
+  <div class="pagination pagination-mini">
     <ul>
-      {{for link in pagination:}}
-      <li>{{=link}}</li>
+      {{for paginate in pagination:}}
+      {{=paginate}}
       {{pass}}
     </ul>
   </div>

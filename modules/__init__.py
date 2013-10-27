@@ -1,3 +1,4 @@
+from gluon import *
 
 def setup_tables(db):
   from gluon.dal import Field
@@ -57,11 +58,34 @@ def get_pages(
   next_pages = 10,
 ):
   current_page = current_record_number/records_per_page
-  page_count = record_count/records_per_page
+  page_count = (record_count - 1)/records_per_page + 1
   page_min = max(0, current_page - previous_pages )
-  page_max = min(current_page + next_pages, page_count)
+  page_max = min(current_page + next_pages + 1, page_count)
   pages = range(page_min, page_max)
   return current_page, pages
+
+
+def get_pagination(href_fmt, pages, current_page, records_per_page):
+  paginate = list()
+
+  # "Prev" link.
+  if 0 < current_page: paginate.append(LI(A(u"prev", _href=href_fmt.format(records_per_page*(current_page-1)))))
+  # Disable "prev" link if we're on first page.
+  else: paginate.append(LI(SPAN(u"prev"), _class="disabled"))
+
+  # Page-number links.
+  for page in pages:
+    page_unicode = unicode(page+1)
+    # Disable link for current page.
+    if page == current_page: paginate.append(LI(SPAN(page_unicode), _class="active"))
+    else: paginate.append(LI(A(page_unicode, _href=href_fmt.format(records_per_page*page))))
+
+  # "Next" link.
+  if pages and (current_page < pages[-1]): paginate.append(LI(A(u"next", _href=href_fmt.format(records_per_page*(current_page+1)))))
+  # Disable "next" link if we're on last page.
+  else: paginate.append(LI(SPAN(u"next"), _class="disabled"))
+
+  return paginate
 
 
 class dotdict(dict):

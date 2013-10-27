@@ -1,11 +1,11 @@
-from applications.finance.modules import get_pages
+from applications.finance.modules import get_pages, get_pagination
 
 # coding: utf8
 # try something like
 def index():
   catid = request.vars.get("catid")
   start = int(request.vars.get("start", 0))
-  num = min(1000, int(request.vars.get("num", 10)))
+  num = min(1000, max(1, int(request.vars.get("num", 10))))
   
   sector = orm.session.query(orm.GoogleSector).filter(orm.GoogleSector.catid==catid).first()
   is_root = (sector.name == "root")
@@ -16,14 +16,9 @@ def index():
   companies = company_q.order_by(orm.GoogleCompany.name).offset(start).limit(num)
 
   # Get list of page numbers to link to.
+  href_fmt = u"?catid={c}&start={o}&num={n}".format(c=catid, n=num, o=u"{}")
   current_page, pages = get_pages(start, company_q.count(), num)
-
-  page_numbers = [str(page+1) for page in pages]
-  offsets = [page*num for page in pages]
-
-  nums_offsets = zip(page_numbers, offsets)
-  # Construct list of links for display.
-  pagination = [A(unicode(page_number), _href="?catid={}&start={}&num={}".format(catid, offset, num)) for page_number, offset in nums_offsets]
+  pagination = get_pagination(href_fmt, pages, current_page, num)
 
   # Construct left sidebar menu.
   navitems = response.sidebar_navitems.copy()
