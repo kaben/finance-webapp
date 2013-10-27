@@ -8,8 +8,8 @@
   <h3>{{=sector.name}}</h3>
 {{pass}}
 
-{{if companies.count():}}
-  <h4>Companies</h4>
+{{if company_count:}}
+  Companies {{=B(current_company)}} through {{=B(through_company)}} of {{=B(company_count)}}
   <table>
     <tbody>
     {{for n, company in enumerate(companies):}}
@@ -33,7 +33,6 @@
     </ul>
   </div>
 {{pass}}
-{{=response.toolbar()}}
 
 
 {{block left_sidebar}}

@@ -14,10 +14,11 @@ def index():
 
   company_q = orm.session.query(orm.GoogleCompany).filter(orm.GoogleCompany.sector==sector)
   companies = company_q.order_by(orm.GoogleCompany.name).offset(start).limit(num)
+  company_count = company_q.count()
 
   # Get list of page numbers to link to.
   href_fmt = u"?catid={c}&start={o}&num={n}".format(c=catid, n=num, o=u"{}")
-  current_page, pages = get_pages(start, company_q.count(), num)
+  current_page, pages = get_pages(start, company_count, num)
   pagination = get_pagination(href_fmt, pages, current_page, num)
 
   # Construct left sidebar menu.
@@ -33,6 +34,9 @@ def index():
     sector=sector,
     subsectors=subsectors,
     companies=companies,
+    current_company=start+1,
+    through_company=min(start+num, company_count),
+    company_count=company_count,
     is_root=is_root,
     pagination=pagination,
     current_page=current_page,
