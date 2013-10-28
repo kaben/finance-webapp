@@ -101,6 +101,14 @@ def recursive_google_sector_ancestors(sector):
   return ancestors
 
 
+def like_queries(klass, columns, like, orm):
+  queries = (
+    orm.session.query(klass).filter(column.like(like))
+    for column in columns
+  )
+  return reduce(lambda p, q: p.union(q), queries)
+  
+
 
 class dotdict(dict):
   def __init__(self, *l, **d):

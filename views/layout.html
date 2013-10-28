@@ -99,8 +99,8 @@
             {{=response.webtitle}}
             <small>{{=response.subtitle or ''}}</small>
           </h1>
-          <form class="form-search">
-            <input type="text" class="search-query" placeholder="Search companies">
+          <form class="form-search" action="{{=URL("search", "index")}}" method="get">
+            <input name="q" type="text" class="search-query" placeholder="Search companies/sectors">
           </form>
         </div>
       </div>
