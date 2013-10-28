@@ -1,4 +1,4 @@
-from applications.finance.modules import get_pages, get_pagination
+from applications.finance.modules import get_pages, get_pagination, recursive_google_sector_company_query, recursive_google_sector_ancestors
 
 # coding: utf8
 # try something like
@@ -6,15 +6,23 @@ def index():
   catid = request.vars.get("catid")
   start = int(request.vars.get("start", 0))
   num = min(1000, max(1, int(request.vars.get("num", 10))))
+  is_root = catid is None
   
   sector = orm.session.query(orm.GoogleSector).filter(orm.GoogleSector.catid==catid).first()
-  is_root = (sector.name == "root")
   subsectors = sector and sector.children or []
   subsectors.sort(key=lambda x: x.name)
 
-  company_q = orm.session.query(orm.GoogleCompany).filter(orm.GoogleCompany.sector==sector)
-  companies = company_q.order_by(orm.GoogleCompany.name).offset(start).limit(num)
-  company_count = company_q.count()
+  ancestors = recursive_google_sector_ancestors(sector)
+  ancestors.reverse()
+  ancestors = filter(lambda ancestor: ancestor.catid is not None, ancestors)
+
+  if is_root:
+    companies = []
+    company_count = 0
+  else:
+    company_q = recursive_google_sector_company_query(sector, orm)
+    company_count = company_q.count()
+    companies = company_q.order_by(orm.GoogleCompany.name).offset(start).limit(num)
 
   # Get list of page numbers to link to.
   href_fmt = u"?catid={c}&start={o}&num={n}".format(c=catid, n=num, o=u"{}")
@@ -33,6 +41,7 @@ def index():
     sidebar_menu=sidebar_menu,
     sector=sector,
     subsectors=subsectors,
+    ancestors=ancestors,
     companies=companies,
     current_company=start+1,
     through_company=min(start+num, company_count),

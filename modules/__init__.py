@@ -88,6 +88,20 @@ def get_pagination(href_fmt, pages, current_page, records_per_page):
   return paginate
 
 
+def recursive_google_sector_company_query(sector, orm):
+  subsectors = sector and sector.children or []
+  query = orm.session.query(orm.GoogleCompany).filter(orm.GoogleCompany.sector==sector)
+  return query.union_all(*(recursive_google_sector_company_query(subsector, orm) for subsector in subsectors))
+  
+
+def recursive_google_sector_ancestors(sector):
+  parents = sector and sector.parents or []
+  ancestors = parents[:]
+  for parent in parents: ancestors.extend(recursive_google_sector_ancestors(parent))
+  return ancestors
+
+
+
 class dotdict(dict):
   def __init__(self, *l, **d):
     super(dotdict, self).__init__(*l, **d)

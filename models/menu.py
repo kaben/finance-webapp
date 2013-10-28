@@ -46,6 +46,7 @@ response.sidebar_navitems = dotdict(
   ),
   sector = dotdict(
     text = T("SECTOR"),
+    helper = URL("sector", "index"),
     expand = False,
     enabled_items = ["summary", "summary_future_1"],
     summary = dotdict(text=T("Summary")),

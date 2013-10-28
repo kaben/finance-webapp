@@ -5,7 +5,7 @@
 {{if is_root:}}
   <h3>This is the sector/index.html template.</h3>
 {{else:}}
-  <h3>{{=sector.name}}</h3>
+  <h3>{{=sector.name}} ({{=sector.catid}})</h3>
 {{pass}}
 
 {{if company_count:}}
@@ -44,6 +44,25 @@
 {{end}}
 
 {{block right_sidebar}}
+  {{if ancestors:}}
+    <h4>Supersectors</h4>
+    <table>
+      <tbody>
+      {{for n, supersector in enumerate(ancestors):}}
+        {{if n%1:}}
+          <tr class="odd">
+        {{else:}}
+          <tr class="even">
+        {{pass}}
+            <td>
+              <a href="?catid={{=supersector.catid}}">{{=supersector.name}} ({{=supersector.catid}})</a>
+            </td>
+          </tr>
+      {{pass}}
+      </tbody>
+    </table>
+  {{pass}}
+
   {{if subsectors:}}
     <h4>Subsectors</h4>
     <table>
@@ -55,7 +74,7 @@
           <tr class="even">
         {{pass}}
             <td>
-              <a href="?catid={{=subsector.catid}}">{{=subsector.name}}</a>
+              <a href="?catid={{=subsector.catid}}">{{=subsector.name}} ({{=subsector.catid}})</a>
             </td>
           </tr>
       {{pass}}
