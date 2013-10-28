@@ -3,7 +3,7 @@
 {{extend 'layout.html'}}
 
 {{if is_root:}}
-  <h3>This is the sector/index.html template</h3>
+  <h3>This is the sector/index.html template.</h3>
 {{else:}}
   <h3>{{=sector.name}}</h3>
 {{pass}}
@@ -32,6 +32,10 @@
       {{pass}}
     </ul>
   </div>
+{{else:}}
+  {{if not is_root:}}
+    No companies found.
+  {{pass}}
 {{pass}}
 
 

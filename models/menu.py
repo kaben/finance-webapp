@@ -7,7 +7,7 @@ from applications.finance.modules import dotdict
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = A(EM("irrealis"), "CHOMP", _class="brand", _href="mailto:kaben.nanlohy@gmail.com")
+response.logo = A(EM("irrealis"), "CHOMP", _class="brand", _href=URL("sector", "index"))
 response.title = "irrealisFINANCE"
 response.webtitle = A(EM("irrealis"), "FINANCE", _id="webtitle", _href=URL("../.."))
 #response.subtitle = P("simple algorithmic investing")
