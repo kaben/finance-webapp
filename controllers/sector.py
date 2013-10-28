@@ -34,7 +34,7 @@ def index():
   navitems.enabled_items.insert(0, "sector")
   navitems.sector.expand = True
   navitems.sector.summary.active = True
-  sidebar_menu = DIV(NAV_LIST(get_menuitems(navitems)), _class="nav-menu")
+  sidebar_menu = DIV(MENU(get_menuitems(navitems)), _class="nav-menu")
 
   return dict(
     message="hello from sector.py",

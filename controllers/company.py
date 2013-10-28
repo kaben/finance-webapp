@@ -8,7 +8,7 @@ def index():
   navitems.enabled_items.insert(0, "company")
   navitems.company.expand = True
   navitems.company.summary.active = True
-  sidebar_menu = DIV(NAV_LIST(get_menuitems(navitems)), _class="nav-menu")
+  sidebar_menu = DIV(MENU(get_menuitems(navitems)), _class="nav-menu")
 
   return dict(
     message="hello from company.py",

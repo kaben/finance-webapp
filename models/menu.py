@@ -74,10 +74,6 @@ def get_menuitems(navitems):
 
 DEVELOPMENT_MENU = True
 
-def NAV_LIST(*args, **kw):
-  kw["_class"] = kw["ul_class"] = "nav nav-list"
-  return MENU(*args, **kw)
-
 #########################################################################
 ## provide shortcuts for development. remove in production
 #########################################################################

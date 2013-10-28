@@ -19,18 +19,17 @@ a#webtitle:hover{
   color:inherit;
   text-decoration:none;
 }
-.nav-list > .active > a,
-.nav-list > .active > a:hover,
-.nav-list > .web2py-menu-active > a,
-.nav-list > .web2py-menu-active > a:hover
-{
-  color:#8f023a;
-  background-color:#e2d4d9;
-}
 
-div.nav-menu > ul.nav-list {
+div.nav-menu ul.web2py-menu-vertical {
+  list-style-type: none;
+}
+div.nav-menu > ul.web2py-menu-vertical {
   margin-left: 0;
   padding-left: 0;
+}
+div.nav-menu .web2py-menu-active {
+  color:#8f023a;
+  background-color:#e2d4d9;
 }
 
 h1{}
