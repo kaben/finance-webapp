@@ -11,9 +11,11 @@
 
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
-    db = DAL('sqlite://storage.sqlite',pool_size=1,check_reserved=['all'])
+    #db = DAL('sqlite://storage.sqlite',pool_size=1,check_reserved=['all'])
+    db = DAL('mysql://irrealis_finance:irrealis_finance@localhost/irrealis_finance',pool_size=1,check_reserved=['all'])
     import applications.finance.modules
-    sa_url = "sqlite:///applications/{}/databases/storage.sqlite".format(request.application)
+    #sa_url = "sqlite:///applications/{}/databases/storage.sqlite".format(request.application)
+    sa_url = "mysql://irrealis_finance:irrealis_finance@localhost/irrealis_finance"
     orm = applications.finance.modules.get_sqlalchemy_orm(sa_url)
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
