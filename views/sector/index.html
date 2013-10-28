@@ -4,7 +4,7 @@
 
 {{if is_root:}}
   <h3>This is the sector/index.html template.</h3>
-{{else:}}
+{{elif sector:}}
   <h3>{{=sector.name}} ({{=sector.catid}})</h3>
 {{pass}}
 
@@ -61,6 +61,8 @@
       {{pass}}
       </tbody>
     </table>
+  {{elif not is_root:}}
+    <h4><a href="{{=URL('sector', 'index')}}">Back to overview</a></h4>
   {{pass}}
 
   {{if subsectors:}}
