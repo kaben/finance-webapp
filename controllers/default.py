@@ -21,7 +21,7 @@ def index():
   response.flash = DIV(T("Welcome to"), " ", EM("irrealis"), "FINANCE!")
   navitems = response.sidebar_navitems.copy()
   navitems["future1"]["active"] = True
-  sidebar_menu = DIV(NAV_LIST(get_menuitems(navitems)), _class="nav-menu")
+  sidebar_menu = DIV(MENU(get_menuitems(navitems)), _class="nav-menu")
 
   message = P("Hello, world! ", A("Click here", _href=URL("finance", "company", "index")), " to see a demo company-summary page.")
   root_rows = db(
@@ -29,6 +29,7 @@ def index():
     &
     (db.google_sectors_assoc.child_id==db.google_sectors.id)
   ).select(db.google_sectors.name)
+  redirect("sector")
   return dict(
     message=message,
     sidebar_menu=sidebar_menu,
