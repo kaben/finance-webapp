@@ -43,7 +43,14 @@ def get_sqlalchemy_orm(url):
     ),
     GoogleCompany = dict(
       __tablename__ = "google_companies",
-      sector = relationship("GoogleSector", backref="companies"),
+      sector = relationship(
+        "GoogleSector",
+        primaryjoin = "google_companies.c.sector_id==google_sectors.c.id",
+      ),
+      industry = relationship(
+        "GoogleSector",
+        primaryjoin = "google_companies.c.industry_id==google_sectors.c.id",
+      ),
     ),
   )
   orm = ORM(orm_defs, url)
