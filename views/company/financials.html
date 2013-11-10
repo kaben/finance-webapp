@@ -1,0 +1,22 @@
+{{left_sidebar_enabled=True}}
+{{right_sidebar_enabled=True}}
+{{extend 'layout.html'}}
+
+{{if company:}}
+<h3>{{=company.name}} ({{=company.stock_symbol}})</h3>
+{{else:}}
+<h3>This is the company/financials.html template</h3>
+{{pass}}
+
+{{if company:}}
+<p>Sector: {{=A(company.sector.name, _href=URL(c="sector", vars=dict(catid=company.sector.catid)))}}</p>
+{{pass}}
+
+{{block left_sidebar}}
+{{ =sidebar_menu }}
+{{end}}
+
+{{block right_sidebar}}
+This is the right sidebar.
+{{end}}
+

@@ -8,6 +8,26 @@ def index():
   navitems.enabled_items.insert(0, "company")
   navitems.company.expand = True
   navitems.company.summary.active = True
+  navitems.company.summary.helper = URL("company", "index")
+  navitems.company.financials.helper = URL("company", "financials")
+  sidebar_menu = DIV(MENU(get_menuitems(navitems)), _class="nav-menu")
+
+  return dict(
+    message="hello from company.py",
+    sidebar_menu=sidebar_menu,
+    company=company,
+  )
+
+def financials():
+  stock_symbol = request.vars.get("stock_symbol")
+  company = orm.session.query(orm.GoogleCompany).filter(orm.GoogleCompany.stock_symbol==stock_symbol).first()
+
+  navitems = response.sidebar_navitems.copy()
+  navitems.enabled_items.insert(0, "company")
+  navitems.company.expand = True
+  navitems.company.summary.helper = URL("company", "index")
+  navitems.company.financials.active = True
+  navitems.company.financials.helper = URL("company", "financials")
   sidebar_menu = DIV(MENU(get_menuitems(navitems)), _class="nav-menu")
 
   return dict(
