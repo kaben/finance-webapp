@@ -40,9 +40,13 @@ response.sidebar_navitems = dotdict(
   company = dotdict(
     text = T("COMPANY"),
     expand = False,
-    enabled_items = ["summary", "summary_future_1"],
-    summary = dotdict(text=T("Summary")),
-    summary_future_1 = dotdict(text=T("Future submenu of summary")),
+    enabled_items = ["summary", "financials"],
+    summary = dotdict(
+      text=T("Summary"),
+    ),
+    financials = dotdict(
+      text=T("Financials"),
+    ),
   ),
   sector = dotdict(
     text = T("SECTOR"),
