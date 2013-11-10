@@ -25,7 +25,7 @@ def index():
   companies = company_q.order_by(orm.GoogleCompany.name).offset(start).limit(num)
 
   # Get list of page numbers to link to.
-  href_fmt = u"?catid={c}&start={o}&num={n}".format(c=catid, n=num, o=u"{}")
+  href_fmt = u"?catid={catid}&start={offset}&num={num}".format(catid=catid, num=num, offset=u"{}")
   current_page, pages = get_pages(start, company_count, num)
   pagination = get_pagination(href_fmt, pages, current_page, num)
 
