@@ -12,6 +12,22 @@
 <p>Sector: {{=A(company.sector.name, _href=URL(c="sector", vars=dict(catid=company.sector.catid)))}}</p>
 {{pass}}
 
+{{if financials_count:}}
+  Statements {{=B(current_financial_stmt)}} through {{=B(through_financial_stmt)}} of {{=B(financials_count)}}
+  {{for financial_stmt in financials:}}
+    <p>{{=financial_stmt}}</p>
+  {{pass}}
+  <div class="pagination pagination-mini">
+    <ul>
+      {{for paginate in pagination:}}
+      {{=paginate}}
+      {{pass}}
+    </ul>
+  </div>
+{{else:}}
+  No financials found.
+{{pass}}
+
 {{block left_sidebar}}
 {{ =sidebar_menu }}
 {{end}}
