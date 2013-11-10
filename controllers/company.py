@@ -2,14 +2,22 @@
 # try something like
 def index():
   stock_symbol = request.vars.get("stock_symbol")
+  start = int(request.vars.get("start", 0))
+  num = min(1000, max(1, int(request.vars.get("num", 4))))
+  url_vars = dict(
+    stock_symbol=stock_symbol,
+    start=start,
+    num=num,
+  )
+
   company = orm.session.query(orm.GoogleCompany).filter(orm.GoogleCompany.stock_symbol==stock_symbol).first()
 
   navitems = response.sidebar_navitems.copy()
   navitems.enabled_items.insert(0, "company")
   navitems.company.expand = True
   navitems.company.summary.active = True
-  navitems.company.summary.helper = URL("company", "index")
-  navitems.company.financials.helper = URL("company", "financials")
+  navitems.company.summary.helper = URL("company", "index", vars=url_vars)
+  navitems.company.financials.helper = URL("company", "financials", vars=url_vars)
   sidebar_menu = DIV(MENU(get_menuitems(navitems)), _class="nav-menu")
 
   return dict(
@@ -20,14 +28,22 @@ def index():
 
 def financials():
   stock_symbol = request.vars.get("stock_symbol")
+  start = int(request.vars.get("start", 0))
+  num = min(1000, max(1, int(request.vars.get("num", 4))))
+  url_vars = dict(
+    stock_symbol=stock_symbol,
+    start=start,
+    num=num,
+  )
+
   company = orm.session.query(orm.GoogleCompany).filter(orm.GoogleCompany.stock_symbol==stock_symbol).first()
 
   navitems = response.sidebar_navitems.copy()
   navitems.enabled_items.insert(0, "company")
   navitems.company.expand = True
-  navitems.company.summary.helper = URL("company", "index")
   navitems.company.financials.active = True
-  navitems.company.financials.helper = URL("company", "financials")
+  navitems.company.summary.helper = URL("company", "index", vars=url_vars)
+  navitems.company.financials.helper = URL("company", "financials", vars=url_vars)
   sidebar_menu = DIV(MENU(get_menuitems(navitems)), _class="nav-menu")
 
   return dict(
