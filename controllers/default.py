@@ -29,7 +29,7 @@ def index():
     &
     (db.google_sectors_assoc.child_id==db.google_sectors.id)
   ).select(db.google_sectors.name)
-  redirect("sector")
+  redirect(URL("finance", "sector", "index"))
   return dict(
     message=message,
     sidebar_menu=sidebar_menu,
