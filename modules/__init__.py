@@ -1,6 +1,9 @@
 from gluon import *
 
 def setup_tables(db):
+  '''
+  sets up web2py database object to access irrealisFINANCE database.
+  '''
   from gluon.dal import Field
   db.define_table(
     "google_companies",
@@ -111,6 +114,9 @@ def setup_tables(db):
   )
 
 def get_sqlalchemy_orm(url):
+  '''
+  Creates and returns irrealis_orm object relational mapping wrapper to irrealisFINANCE SQLAlchemy database given by url.
+  '''
   from irrealis_orm import ORM
   from sqlalchemy.orm import relationship
   
@@ -166,6 +172,9 @@ def get_pages(
   previous_pages = 10,
   next_pages = 10,
 ):
+  '''
+  get_pages: used by get_pagination() function below. Gets a list of page numbers corresponding to available records.
+  '''
   current_page = current_record_number/records_per_page
   page_count = (record_count - 1)/records_per_page + 1
   page_min = max(0, current_page - previous_pages )
@@ -175,6 +184,9 @@ def get_pages(
 
 
 def get_pagination(href_fmt, pages, current_page, records_per_page):
+  '''
+  get_pagination: constructs HTML for "prev-1-2-3-4-next" style pagination links to other pages to view. Each link's href is determined by href_fmt, which should be a format string with one argument, which will be filled with a record offset for viewing the next page.
+  '''
   paginate = list()
 
   # "Prev" link.
@@ -198,12 +210,18 @@ def get_pagination(href_fmt, pages, current_page, records_per_page):
 
 
 def recursive_google_sector_company_query(sector, orm):
+  '''
+  recursive_google_sector_company_query: return query for a recursive search for companies in the sector, then in its subsectors.
+  '''
   subsectors = sector and sector.children or []
   query = orm.session.query(orm.GoogleCompany).filter(orm.GoogleCompany.sector==sector)
   return query.union_all(*(recursive_google_sector_company_query(subsector, orm) for subsector in subsectors))
   
 
 def recursive_google_sector_ancestors(sector):
+  '''
+  recursive_google_sector_ancestors: return list of ancestors (via parent-child relationshp) of given sector.
+  '''
   parents = sector and sector.parents or []
   ancestors = parents[:]
   for parent in parents: ancestors.extend(recursive_google_sector_ancestors(parent))
@@ -211,6 +229,9 @@ def recursive_google_sector_ancestors(sector):
 
 
 def like_queries(klass, columns, like, orm):
+  '''
+  like_queries: query given columns of klass's database table for entries like the "like" variable.
+  '''
   queries = (
     orm.session.query(klass).filter(column.like(like))
     for column in columns
@@ -218,7 +239,13 @@ def like_queries(klass, columns, like, orm):
   return reduce(lambda p, q: p.union(q), queries)
 
 class dotdict(dict):
+  '''
+  Convenience dictionary class with attribute-like access (dot notation) to members.
+  '''
   def __init__(self, *l, **d):
+    '''
+    Initialized same way as a standard dictionary class.
+    '''
     super(dotdict, self).__init__(*l, **d)
     self.__dict__ = self
   def copy(self):
@@ -228,5 +255,8 @@ class dotdict(dict):
     return dotdict(dict.fromkeys(*l, **d))
 
 def filter_and_order_query_by_field_descending(query, field):
+  '''
+  filter_and_order_query_by_field_descending: expects SQLAlchemy query; filters for records with nonempty field given by "field" variable, then sorts on that field.
+  '''
   return query.filter(field).order_by(field.desc())
 
