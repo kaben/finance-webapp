@@ -10,6 +10,13 @@
 
 {{if company_count:}}
   Companies {{=B(current_company)}} through {{=B(through_company)}} of {{=B(company_count)}}
+  <div class="pagination pagination-mini">
+    <ul>
+      {{for paginate in pagination:}}
+      {{=paginate}}
+      {{pass}}
+    </ul>
+  </div>
   <table>
     <tbody>
     {{for n, company in enumerate(companies):}}
