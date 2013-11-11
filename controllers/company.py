@@ -1,6 +1,5 @@
-from applications.finance.modules import get_pages, get_pagination
+from applications.finance.modules import get_pages, get_pagination, filter_and_order_query_by_field_descending
 import itertools
-
 # coding: utf8
 # try something like
 def index():
@@ -117,10 +116,16 @@ financial_fields = (
 )
 
 def financials():
+  # Uniquely identify requested company by stock symbol.
   stock_symbol = request.vars.get("stock_symbol")
+  # Offset for financial records to view.
   start = int(request.vars.get("start", 0))
+  # Number of financial records to view.
   num = min(1000, max(1, int(request.vars.get("num", 4))))
+  # Whether to view quarterly- or annual-period records.
   period = request.vars.get("period", "quarterly")
+  if period != "quarterly": period = "annual"
+  # Dict for constructing URL with request arguments.
   url_vars = dict(
     stock_symbol=stock_symbol,
     start=start,
@@ -128,32 +133,21 @@ def financials():
     period=period,
   )
 
-  company = orm.session.query(orm.GoogleCompany).filter(orm.GoogleCompany.stock_symbol==stock_symbol).first()
+  # Query database for unique company with exact match for requested stock symbol.
+  company = orm.session.query(orm.GoogleCompany).filter(orm.GoogleCompany.stock_symbol==stock_symbol).one()
   if company:
-    financials_q = orm.session.query(
-      orm.NasdaqCompanyFinancials
-    ).filter(
-      orm.NasdaqCompanyFinancials.company == company
-    )
-    switch_view_period_vars = url_vars.copy()
-    if period == "quarterly":
-      financials_q = financials_q.filter(
+    # Query database for financials for this company.
+    financials_q = orm.session.query(orm.NasdaqCompanyFinancials).filter(orm.NasdaqCompanyFinancials.company == company)
+    # Filter and reverse-order financials by either annual or quarterly period ending.
+    financials_q = filter_and_order_query_by_field_descending(
+      financials_q,
         orm.NasdaqCompanyFinancials.quarter_ending
-      ).order_by(
-        orm.NasdaqCompanyFinancials.quarter_ending.desc()
-      )
-      # Setup variables for link to switch view period.
-      switch_view_period_vars["period"]="annual"
-    else:
-      period = "annual"
-      financials_q = financials_q.filter(
+      if period == "quarterly" else
         orm.NasdaqCompanyFinancials.period_ending
-      ).order_by(
-        orm.NasdaqCompanyFinancials.period_ending.desc()
-      )
-      # Setup variables for link to switch view period.
-      switch_view_period_vars["period"]="quarterly"
+    )
+    # How many financials records did we find?
     financials_count = financials_q.count()
+    # Limit and offset number of records to view.
     financials_q = financials_q.offset(start).limit(num)
     # Extract rows of financial data from financial objects.
     financials = [[getattr(financial, key) for key in financial_fields] for financial in financials_q]
@@ -164,20 +158,24 @@ def financials():
     # Filter-out empty rows.
     financials = [row for row in financials if filter(None, row[1:])]
   else:
+    # No company found; return empty data.
     financials = tuple()
     financials_count = 0
     data = tuple()
 
-  # Get list of page numbers to link to.
-  href_fmt = u"?stock_symbol={stock_symbol}&period={period}&start={offset}&num={num}".format(
+  # Get list of page numbers to link to for more financials data..
+  pagination_href_fmt = u"?stock_symbol={stock_symbol}&period={period}&start={offset}&num={num}".format(
     stock_symbol=stock_symbol,
     period=period,
     num=num,
     offset=u"{}"
   )
   current_page, pages = get_pages(start, financials_count, num)
-  pagination = get_pagination(href_fmt, pages, current_page, num)
+  pagination = get_pagination(pagination_href_fmt, pages, current_page, num)
 
+  # Setup a link to switch from quarterly to annual period view (and v.v.).
+  switch_view_period_vars = url_vars.copy()
+  switch_view_period_vars["period"] = "annual" if period == "quarterly" else "quarterly"
   switch_view_period_vars["start"]=0
   switch_view_period_link = A("{period} view".format(period=switch_view_period_vars["period"]), _href=URL("company", "financials", vars=switch_view_period_vars))
 

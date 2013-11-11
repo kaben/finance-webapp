@@ -216,8 +216,6 @@ def like_queries(klass, columns, like, orm):
     for column in columns
   )
   return reduce(lambda p, q: p.union(q), queries)
-  
-
 
 class dotdict(dict):
   def __init__(self, *l, **d):
@@ -228,3 +226,7 @@ class dotdict(dict):
   @staticmethod
   def fromkeys(*l, **d):
     return dotdict(dict.fromkeys(*l, **d))
+
+def filter_and_order_query_by_field_descending(query, field):
+  return query.filter(field).order_by(field.desc())
+

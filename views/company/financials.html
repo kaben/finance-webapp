@@ -18,9 +18,9 @@
   {{=period}} statements {{=B(current_financial_stmt)}} through {{=B(through_financial_stmt)}} of {{=B(financials_count)}} (switch to {{=switch_view_period_link}}):
   <div class="pagination pagination-mini">
     <ul>
-      {{for paginate in pagination:}}
+    {{for paginate in pagination:}}
       {{=paginate}}
-      {{pass}}
+    {{pass}}
     </ul>
   </div>
   <table>
@@ -43,9 +43,9 @@
   </table>
   <div class="pagination pagination-mini">
     <ul>
-      {{for paginate in pagination:}}
+    {{for paginate in pagination:}}
       {{=paginate}}
-      {{pass}}
+    {{pass}}
     </ul>
   </div>
 {{else:}}
