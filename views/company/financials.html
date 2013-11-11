@@ -9,14 +9,38 @@
 {{pass}}
 
 {{if company:}}
-<p>Sector: {{=A(company.sector.name, _href=URL(c="sector", vars=dict(catid=company.sector.catid)))}}</p>
+<p>
+  Sector: {{=A(company.sector.name, _href=URL("finance", "sector", "index", vars=dict(catid=company.sector.catid)))}}
+</p>
 {{pass}}
 
 {{if financials_count:}}
-  Statements {{=B(current_financial_stmt)}} through {{=B(through_financial_stmt)}} of {{=B(financials_count)}}
-  {{for financial_stmt in financials:}}
-    <p>{{=financial_stmt}}</p>
-  {{pass}}
+  {{=period}} statements {{=B(current_financial_stmt)}} through {{=B(through_financial_stmt)}} of {{=B(financials_count)}} (switch to {{=switch_view_period_link}}):
+  <div class="pagination pagination-mini">
+    <ul>
+      {{for paginate in pagination:}}
+      {{=paginate}}
+      {{pass}}
+    </ul>
+  </div>
+  <table>
+    <thead>
+      <tr>
+      {{for date in financials[0]:}}
+        <th>{{=date}}</th>
+      {{pass}}
+      </tr>
+    </thead>
+    <tbody>
+    {{for row in financials[1:]:}}
+      <tr>
+      {{for datum in row:}}
+        <td>{{=datum}}</td>
+      {{pass}}
+      </tr>
+    {{pass}}
+    </tbody>
+  </table>
   <div class="pagination pagination-mini">
     <ul>
       {{for paginate in pagination:}}

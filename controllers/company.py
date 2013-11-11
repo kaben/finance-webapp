@@ -1,4 +1,6 @@
 from applications.finance.modules import get_pages, get_pagination
+import itertools
+
 # coding: utf8
 # try something like
 def index():
@@ -28,6 +30,92 @@ def index():
     company=company,
   )
 
+financial_fields = (
+  "period_ending",
+  "quarter_ending",
+  "quarter",
+  "accounting_changes",
+  "accounts_payable",
+  "accounts_receivable",
+  "accumulated_amortization",
+  "additional_income_or_expense_items",
+  "adjustments_to_net_income",
+  "capital_expenditures",
+  "capital_surpolus",
+  "cash_and_equivalents",
+  "common_stocks",
+  "cost_of_revenue",
+  "deferred_asset_charges",
+  "deferred_liability_charges",
+  "depreciation",
+  "discontinued_operations",
+  "dividends_paid",
+  "earnings_before_interest_and_tax",
+  "earnings_before_tax",
+  "effect_of_exchange_rate",
+  "equity_earnings_unconsolidated_subsidiary",
+  "extraordinary_items",
+  "fixed_assets",
+  "goodwill",
+  "gross_profit",
+  "income_tax",
+  "intangible_assets",
+  "interest_expense",
+  "inventory",
+  "investments",
+  "liabilities",
+  "long_term_debt",
+  "long_term_investments",
+  "minority_interest",
+  "misc_stocks",
+  "negative_goodwill",
+  "net_borrowing",
+  "net_cash_flow",
+  "net_operating_cash_flow",
+  "net_cash_flow_from_financing",
+  "net_cash_flow_from_investing",
+  "net_income",
+  "net_income_adjustments",
+  "shareholder_net_income",
+  "net_income_from_continuing_operations",
+  "net_receivables",
+  "non_recurring_items",
+  "operating_income",
+  "other_assets",
+  "other_current_assets",
+  "other_current_liabilities",
+  "other_equity",
+  "other_financing_activities",
+  "other_investing_activities",
+  "other_items",
+  "other_liabilities",
+  "other_operating_activities",
+  "other_operating_items",
+  "preferred_stocks",
+  "redeemable_stocks",
+  "research_and_development",
+  "retained_earnings",
+  "sale_and_purchase_of_stock",
+  "sales_general_and_admin",
+  "short_term_debt",
+  "short_term_investments",
+  "total_assets",
+  "total_current_assets",
+  "total_current_liabilities",
+  "total_equity",
+  "total_liabilities",
+  "total_revenue",
+  "treasury_stock",
+  "eps",
+  "shares_outstanding",
+  "gross_margin",
+  "net_margin",
+  "cash_to_debt_ratio",
+  "net_cash",
+  "foolish_flow_ratio",
+  "cash_king_margin",
+)
+
 def financials():
   stock_symbol = request.vars.get("stock_symbol")
   start = int(request.vars.get("start", 0))
@@ -47,24 +135,38 @@ def financials():
     ).filter(
       orm.NasdaqCompanyFinancials.company == company
     )
+    switch_view_period_vars = url_vars.copy()
     if period == "quarterly":
       financials_q = financials_q.filter(
         orm.NasdaqCompanyFinancials.quarter_ending
       ).order_by(
-        orm.NasdaqCompanyFinancials.quarter_ending
+        orm.NasdaqCompanyFinancials.quarter_ending.desc()
       )
+      # Setup variables for link to switch view period.
+      switch_view_period_vars["period"]="annual"
     else:
+      period = "annual"
       financials_q = financials_q.filter(
         orm.NasdaqCompanyFinancials.period_ending
       ).order_by(
-        orm.NasdaqCompanyFinancials.period_ending
+        orm.NasdaqCompanyFinancials.period_ending.desc()
       )
+      # Setup variables for link to switch view period.
+      switch_view_period_vars["period"]="quarterly"
     financials_count = financials_q.count()
     financials_q = financials_q.offset(start).limit(num)
-    financials = financials_q
+    # Extract rows of financial data from financial objects.
+    financials = [[getattr(financial, key) for key in financial_fields] for financial in financials_q]
+    # Insert corresponding field names at top row.
+    financials.insert(0, financial_fields)
+    # Convert rows to columns.
+    financials = itertools.izip_longest(*financials, fillvalue=None)
+    # Filter-out empty rows.
+    financials = [row for row in financials if filter(None, row[1:])]
   else:
     financials = tuple()
     financials_count = 0
+    data = tuple()
 
   # Get list of page numbers to link to.
   href_fmt = u"?stock_symbol={stock_symbol}&period={period}&start={offset}&num={num}".format(
@@ -75,6 +177,9 @@ def financials():
   )
   current_page, pages = get_pages(start, financials_count, num)
   pagination = get_pagination(href_fmt, pages, current_page, num)
+
+  switch_view_period_vars["start"]=0
+  switch_view_period_link = A("{period} view".format(period=switch_view_period_vars["period"]), _href=URL("company", "financials", vars=switch_view_period_vars))
 
   # Construct left sidebar menu.
   navitems = response.sidebar_navitems.copy()
@@ -95,6 +200,8 @@ def financials():
     financials_count=financials_count,
     pagination=pagination,
     current_page=current_page,
+    period=period.capitalize(),
+    switch_view_period_link=switch_view_period_link,
   )
 
 def plot():
